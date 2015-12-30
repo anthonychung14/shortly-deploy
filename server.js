@@ -1,7 +1,6 @@
 var app = require('./server-config.js');
+var process = require('./process.env');
 
-var port = 4568;
-
-app.listen(port);
+app.listen(process.env.PORT || 5000);
 
 console.log('Server now listening on port ' + port);
