@@ -1,6 +1,7 @@
 var app = require('./server-config.js');
-var process = require('./process.env');
+var port = process.env.PORT || 3000;
+var host = process.env.HOST || '0.0.0.0';
 
-app.listen(process.PORT || 5000);
+app.listen(port);
 
-console.log('Server now listening on port ' + process.PORT);
+console.log('Server now listening on port ' + port);
