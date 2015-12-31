@@ -5,20 +5,8 @@ module.exports = function(grunt) {
 
     concat: {
       pub: {
-        src: 'public/*/*.js',
-        dest: 'public/compiled.js'
-      },
-      app: {
-        src: 'app/*/*.js',
-        dest: 'app/compiled.js'
-      },
-      lib: {
-        src: 'lib/*.js',
-        dest: 'lib/compiled.js'
-      },
-      alltheShiz: {
-        src: ['public/compiled.js','app/compiled.js','lib/compiled.js', 'views/compiled.js'],
-        dest: 'appCompile.js'
+        src: 'public/client/*.js',
+        dest: 'dest/compiledClient.js'
       }
       // "public/client/compiled.js": ["/public/client/app.js","/public/client/createLinkView.js"]
     },
@@ -39,13 +27,11 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      'appMinCompile.js': 'appCompile.js'
+      'dest/compMinClient.js': 'dest/compiledClient.js'
     },
 
     jshint: {
-      files: [
-        // Add filespec list here
-      ],
+      files: ['dest/compiledClient.js'],
       options: {
         force: 'true',
         jshintrc: '.jshintrc',
@@ -57,7 +43,7 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
-      'styleMin.css':'public/style.css' 
+      'dest/styleMin.css':'public/style.css' 
     },
 
     watch: {
@@ -109,12 +95,9 @@ module.exports = function(grunt) {
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
-  grunt.registerTask('default', [ 'concat', 'uglify', 'cssmin' ]);
+  grunt.registerTask('default', [ 'jshint' ]);
 
-  grunt.task.run(['default'])
-
-  grunt.registerTask('build', [
-  ]);
+  grunt.registerTask('build', [ 'jshint', 'cssmin', 'concat', 'uglify' ] );
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
@@ -124,9 +107,9 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
-  ]);
+  grunt.registerTask('deploy', [ 'build' ]);
+
+  grunt.task.run('deploy')
 
 
 };
