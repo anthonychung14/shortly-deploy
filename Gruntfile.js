@@ -100,7 +100,7 @@ module.exports = function(grunt) {
 
 
 
-  grunt.registerTask('build', [ 'jshint', 'cssmin', 'concat', 'uglify' ] );
+  grunt.registerTask('build', [ 'cssmin', 'concat', 'uglify' ] );
 
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
@@ -110,9 +110,9 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('deploy', [ 'upload' ]);
+  grunt.registerTask('deploy', [ 'build' ]);
 
-  grunt.task.run('upload')
+  grunt.task.run('deploy')
 
 
 };
