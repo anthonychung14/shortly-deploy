@@ -2,7 +2,25 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      pub: {
+        src: 'public/*/*.js',
+        dest: 'public/compiled.js'
+      },
+      app: {
+        src: 'app/*/*.js',
+        dest: 'app/compiled.js'
+      },
+      lib: {
+        src: 'lib/*.js',
+        dest: 'lib/compiled.js'
+      },
+      alltheShiz: {
+        src: ['public/compiled.js','app/compiled.js','lib/compiled.js', 'views/compiled.js'],
+        dest: 'appCompile.js'
+      }
+      // "public/client/compiled.js": ["/public/client/app.js","/public/client/createLinkView.js"]
     },
 
     mochaTest: {
@@ -21,6 +39,7 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      'appMinCompile.js': 'appCompile.js'
     },
 
     jshint: {
@@ -38,6 +57,7 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      'styleMin.css':'public/style.css' 
     },
 
     watch: {
@@ -60,9 +80,9 @@ module.exports = function(grunt) {
     shell: {
       prodServer: {
       }
-    },
+    }
   });
-
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -89,9 +109,9 @@ module.exports = function(grunt) {
   // Main grunt tasks
   ////////////////////////////////////////////////////
 
-  grunt.registerTask('test', [
-    'mochaTest'
-  ]);
+  grunt.registerTask('default', [ 'concat', 'uglify', 'cssmin' ]);
+
+  grunt.task.run(['default'])
 
   grunt.registerTask('build', [
   ]);
